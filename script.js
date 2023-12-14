@@ -11,38 +11,48 @@ newBookBtn.addEventListener("click", function () {
   newBookForm.style.display = "block";
 });
 
-/**
- * Create a Book object with the given title, author, pages, and read status.
- * @param {string} title - The title of the book.
- * @param {string} author - The author of the book.
- * @param {number} pages - The number of pages in the book.
- * @param {boolean} read - The read status of the book.
- * @returns {object} - The created Book object.
- */
 function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
 }
+function render() {
+  let LibraryEl = document.querySelector("#library");
+  LibraryEl.innerHTML = "";
+  //
+  for (let i = 0; i < myLibrary.length; i++) {
+    let myBook = myLibrary[i];
+    let bookEl = document.createElement("div");
+    bookEl.setAttribute("class", "book-wrapper");
+    bookEl.innerHTML = `<p>Title: ${myBook.title}</p>
+    <p>Author: ${myBook.author}</p>`;
+    bookEl.innerHTML += `<p>Pages: ${myBook.pages}</p>`;
+    bookEl.innerHTML += `<p>Read: ${myBook.read}</p>`;
+    bookEl.innerHTML += `<button id="delete-${i}">Delete</button>`;
+    LibraryEl.appendChild(bookEl);
 
+    //delete and update
+    let deleteBtn = document.getElementById(`delete-${i}`);
+    let updateBtn = document.getElementById(`update-${i}`);
+    deleteBtn.addEventListener("click", () => {
+      myLibrary.splice(i, 1);
+      render();
+    });
+  }
+}
 // Define a function called addBooktoLibrary
 function addBooktoLibrary() {
-  // Get the value of the input element with the id "title" and assign it to the variable title
   let title = document.getElementById("title").value;
-  // Get the value of the input element with the id "author" and assign it to the variable author
   let author = document.getElementById("author").value;
-  // Get the value of the input element with the id "pages" and assign it to the variable pages
   let pages = document.getElementById("pages").value;
-  // Get the value of the checkbox element with the id "read" and check if it is checked or not,
-  // assign the result to the variable read
   let read = document.getElementById("read").checked;
-  // Create a new Book object with the values of title, author, pages, and read,
-  // and assign it to the variable newBook
   let newBook = new Book(title, author, pages, read);
-  // Log the newBook object to the console
   console.log(newBook);
+  myLibrary.push(newBook);
+  render();
 }
+
 document.querySelector("#new-book-form").addEventListener("submit", (e) => {
   e.preventDefault();
   addBooktoLibrary();
