@@ -26,6 +26,7 @@ function addBooktoLibrary() {
 
 // DOM
 let newBookBtn = document.getElementById("new-book-button");
+
 document.querySelector("#new-book-form").addEventListener("submit", (e) => {
   e.preventDefault();
   addBooktoLibrary();
