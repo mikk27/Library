@@ -16,6 +16,9 @@ newBookBtn.addEventListener("click", (e) => {
   dialog.close();
 });
 
+Book.prototype.toggleReadStatus = function () {
+  this.read = !this.read;
+};
 //Select the div where all the books will eventually be displayed in.
 const library = document.querySelector("#library");
 
@@ -30,8 +33,8 @@ const myLibrary = [
 function Book(title, author, pages, read) {
   this.title = title;
   this.author = author;
-  this.pages = pages;
   this.read = read;
+  this.pages = pages;
 }
 
 //Define how adding a book to the library works
@@ -75,11 +78,14 @@ function render() {
     pagesElement.textContent = `Pages: ${book.pages}`;
     bookElement.appendChild(pagesElement); // Append the pages element to the book div
 
+    const checkBtn = document.createElement("button");
+    checkBtn.textContent = "Toggle read";
+
     // Create a paragraph element for the book read status and set its text content
     const readElement = document.createElement("p");
     readElement.textContent = `Read: ${book.read}`;
     bookElement.appendChild(readElement); // Append the read element to the book div
-
+    bookElement.appendChild(checkBtn);
     // Create a delete button for the book
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
@@ -90,9 +96,21 @@ function render() {
       render(); // Re-render the library
     });
 
+    function updateButtonText() {
+      if (Book.read) {
+        checkBtn.textContent = "Unread";
+      } else {
+        checkBtn.textContent = "Read";
+      }
+    }
+
+    checkBtn.addEventListener("click", () => {
+      book.toggleReadStatus();
+      render();
+    });
+
     bookElement.appendChild(deleteBtn); // Append the delete button to the book div
     library.appendChild(bookElement); // Append the book div to the library element
   }
-
   console.log("Render complete!"); // For testing purposes
 }
