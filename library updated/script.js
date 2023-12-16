@@ -16,7 +16,10 @@ newBookBtn.addEventListener("click", (e) => {
   dialog.close();
 });
 
+// Define a method on the Book prototype
 Book.prototype.toggleReadStatus = function () {
+  // Toggle the 'read' property of the Book instance:
+  // If 'read' is true, it becomes false, and vice versa
   this.read = !this.read;
 };
 //Select the div where all the books will eventually be displayed in.
@@ -86,6 +89,7 @@ function render() {
     readElement.textContent = `Read: ${book.read}`;
     bookElement.appendChild(readElement); // Append the read element to the book div
     bookElement.appendChild(checkBtn);
+
     // Create a delete button for the book
     const deleteBtn = document.createElement("button");
     deleteBtn.textContent = "Delete";
@@ -95,14 +99,6 @@ function render() {
       myLibrary.splice(i, 1); // Remove the book from the myLibrary array
       render(); // Re-render the library
     });
-
-    function updateButtonText() {
-      if (Book.read) {
-        checkBtn.textContent = "Unread";
-      } else {
-        checkBtn.textContent = "Read";
-      }
-    }
 
     checkBtn.addEventListener("click", () => {
       book.toggleReadStatus();
